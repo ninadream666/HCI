@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>济事楼四楼导览 (SVG)</title>
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    /* —— 启动屏 —— */
+    #startup-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('bg.jpg') no-repeat center center;
+      background-size: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    #startup-content {
+      text-align: center;
+      color: #fff;
+    }
+
+    #startup-content h1 {
+      margin-bottom: 1rem;
+      font-size: 2rem;
+    }
+
+    #enter-btn {
+      padding: 0.5rem 1.5rem;
+      font-size: 1rem;
+      background: #055408;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    #enter-btn:hover {
+      background: #0a6d0f;
+    }
+
+    /* —— 搜索框 —— */
+    #search-box {
+      position: fixed;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 900;
+    }
+
+    #search-box input {
+      padding: 4px 8px;
+      font-size: 1rem;
+    }
+
+    #search-box button {
+      padding: 4px 8px;
+      font-size: 1rem;
+      color: #fff;
+      background: rgba(11, 92, 15, 0.9);
+    }
+
+    /* —— 地图容器 —— */
+    #container {
+      position: absolute;
+      top: 50px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow: auto;
+      /* 开启滚动条 */
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .room-area {
+      fill: transparent;
+      stroke: #004080;
+      stroke-width: 2;
+      cursor: pointer;
+      transition: fill .2s;
+      pointer-events: all;
+    }
+
+    .room-area:hover {
+      fill: rgba(43, 229, 114, 0.3);
+    }
+
+    .room-label {
+      font-size: 24px;
+      fill: #004080;
+      pointer-events: none;
+      text-anchor: middle;
+      dominant-baseline: central;
+    }
+
+    #info-box {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 8px;
+      border: 1px solid #055408;
+      border-radius: 4px;
+      display: none;
+      transform: translate(-50%, -110%);
+      z-index: 950;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 启动屏 -->
+  <div id="startup-screen">
+    <div id="startup-content">
+      <h1>济事楼四楼导览地图</h1>
+      <button id="enter-btn">进入</button>
+    </div>
+  </div>
+  <!-- 搜索框 -->
+  <div id="search-box">
+    <form id="search-form">
+      <input type="text" id="search-input" placeholder="搜索房间号、用途、人员..." />
+      <button type="submit">搜索</button>
+    </form>
+  </div>
+  <div id="container">
+    <svg id="mapSvg" viewBox="0 0 2265 2767" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+      <image href="济事楼地图.jpg" x="0" y="0" width="2265" height="2767" />
+      <!-- 房间示例：407 -->
+      <g id="_图层_1" data-name="图层 1">
+        <image width="1313" height="1604" transform="scale(1.73)" xlink:href="济事楼地图.jpg" />
+      </g>
+      <g class="room-group" data-room="407" data-type="研究生工作室" data-occupant="陈梁 严海洲 叶珂男">
+        <polygon class="room-area" points="1083.5,1984.5 1220.1,1815.5 1110.5,1722.5 966.5,1889.5" />
+        <text class="room-label" x="1083.5" y="1880">407</text>
+      </g>
+      <g class="room-group" data-room="416" data-type="多媒体教学机房" data-occupant="陈梁 杨旻">
+        <rect class="room-area" x="186.39" y="981.61" width="215.58" height="309.49" />
+        <text class="room-label">
+        </text>
+      </g>
+      <g class="room-group" data-room="409" data-type="教育部工程研究中心实验室" data-occupant="陈梁 朱亚萍 代玉琢 杜庆峰 韩永琦">
+        <path class="room-area"
+          d="M732.61,1704.85l139.79-171.09s224.36,191.83,226.08,188.37l1.73-3.46-132.89,178-234.71-191.83Z" />
+        <text class="room-label"></text>
+      </g>
+      <g class="room-group" data-room="414" data-type="教育部工程研究中心实验室" data-occupant="陈梁 朱亚萍 代玉琢 杜庆峰 韩永琦">
+        <path class="room-area"
+          d="M221.77,1620.17l208.82-58.76-28.62-82.15s-14.53-83.76-9.35-85.48l5.18-1.73,4.17-13.98v-86.97l-215.58,21.46s-2.59,122.25,0,123.34l2.59,1.09,6.9,89.87,25.89,93.32Z" />
+        <text class="room-label"></text>
+      </g>
+      <g class="room-group" data-room="408" data-type="无标签办公室" data-occupant="暂无">
+        <polygon class="room-area" points="989.76,2109.24 872.4,2014.19 732.61,2185.56 851.69,2278.6 989.76,2109.24" />
+        <text class="room-label">408</text>
+      </g>
+      <g class="room-group" data-room="410" data-type="研究生工作室" data-occupant="陈梁 尹长青 陈韩悦">
+        <polygon class="room-area" points="753.32 1915.69 615.25 2085.05 732.61 2185.56 872.4 2014.19 753.32 1915.69" />
+        <text class="room-label"></text>
+      </g>
+      <g class="room-group" data-room="456" data-type="党委办公室" data-occupant="周微微 陆凤兰 赵清理">
+        <polygon class="room-area"
+          points="1942.41 1661.64 2009.72 1556.23 1902.72 1478.46 1830.23 1578.69 1942.41 1661.64" />
+        <text class="room-label"></text>
+      </g>
+      <g class="room-group" data-room="451" data-type="副院长办公室" data-occupant="王成 何良华 张林">
+        <path class="room-area"
+          d="M1762.92,1080.98l-93.14,65.57,46.57,72.49s65.77,52.03,64.8,41.66c-.97-10.37,92.81-114.16,92.81-114.16l-111.04-65.57Z" />
+        <text class="room-label"></text>
+      </g>
+      <g class="room-group" data-room="455" data-type="会议室" data-occupant="暂无">
+        <polygon class="room-area"
+          points="2178.85 1336.75 2101.18 1440.44 1985.55 1364.4 2056.31 1260.71 2178.85 1336.75" />
+        <text class="room-label"></text>
+      </g>
+      <g class="room-group" data-room="443" data-type="实验中心" data-occupant="陈梁 杨旻 严海洲">
+        <path class="room-area" d="M1718.05,916.8s-151.28-3.46-147.26,0l4.02,3.46,12.08,108.88,131.16-47.52v-64.81Z" />
+        <text class="room-label"></text>
+      </g>
+      <g class="room-group" data-room="441" data-type="会议室" data-occupant="暂无">
+        <polygon class="room-area" points="1718.05 682.09 1570.71 682.09 1570.79 916.8 1718.05 916.8 1718.05 682.09" />
+        <text class="room-label"></text>
+      </g>
+      <g class="room-group" data-room="442R" data-type="学院办公室" data-occupant="闫鹏 张晶 林伊凡 张晓雅 钱银飞 王昊榕 俞晓静">
+        <path class="room-area"
+          d="M1309.03,541.78s-1.73,145.05,0,148.57,3.45,6.97,1.73,3.51,0,0,0,0l150.72,1.43v-153.51h-152.45Z" />
+        <text class="room-label"></text>
+      </g>
+      <g class="room-group" data-room="442L" data-type="教务办公室" data-occupant="刘梦露 李慧敏 王彩霞 杨丹 姚仕仪">
+        <polygon class="room-area"
+          points="1461.48 810.13 1461.48 695.29 1310.76 693.86 1308.27 820.46 1461.48 810.13" />
+        <text class="room-label"></text>
+      </g>
+      <g class="room-group" data-room="444" data-type="档案室" data-occupant="暂无">
+        <polygon class="room-area" points="1461.48 916.8 1461.48 810.13 1308.27 820.46 1308.27 916.8 1461.48 916.8" />
+        <text class="room-label"></text>
+      </g>
+      <g class="room-group" data-room="446" data-type="学生工作办公室" data-occupant="张砚秋 丁瑞庭 葛蕾 焦嘉欣 钟梦莹 陈璞皎">
+        <polygon class="room-area"
+          points="1483.34 1049.87 1461.48 916.8 1308.27 916.8 1298.68 998.02 1319.39 1099.99 1483.34 1049.87" />
+        <text class="room-label"></text>
+      </g>
+      <g class="room-group" data-room="448" data-type="副书记办公室 院务助理办公室" data-occupant="陈荣 吴晓培 宋井宽">
+        <polygon class="room-area"
+          points="1498.87 1122.45 1352.18 1196.76 1319.39 1099.99 1483.34 1049.87 1498.87 1122.45" />
+        <text class="room-label"></text>
+      </g>
+      <g class="room-group" data-room="450" data-type="（左）党委书记办公室 （右）院长办公室" data-occupant="（左）熊岚 （右）申恒涛">
+        <path class="room-area"
+          d="M1698.66,1386l-108.32,118.38-137.11-118.38-101.05-189.24,146.69-74.31,80.17,139.62,119.62,123.93Z" />
+        <text class="room-label"></text>
+      </g>
+      <!-- 房间 412 -->
+      <g class="room-group" data-room="412" data-type="教研室" data-occupant="刘岩 张惠娟 孙萍 罗怡桂">
+        <path class="room-area"
+          d="M641.14,1813.72s-138.07,171.09-141.52,171.09,115.63,100.23,115.63,100.23l138.07-169.36-112.18-101.96Z" />
+        <text class="room-label">412</text>
+      </g>
+      <g class="room-group" data-room="419" data-type="教学实验室" data-occupant="陈梁 张晶">
+        <path class="room-area" d="M770.58,673.83l-210.55-5.89,4.32,321.86,206.23-.42v-315.55Z" />
+        <text class="room-label">419</text>
+      </g>
+      <g class="room-group" data-room="418R" data-type="研究生工作室" data-occupant="袁时金">
+        <path class="room-area"
+          d="M186.39,682.09s-2.59,128.52,0,128.04h215.58s0-128.04,0-128.04c0,0-216.45.32-215.58,0Z" />
+        <text class="room-label"></text>
+      </g>
+      <g class="room-group" data-room="418L" data-type="教授办公室 " data-occupant="张林 江建慧 刘琴">
+        <rect class="room-area" x="186.39" y="810.13" width="215.58" height="171.47" />
+        <text class="room-label"></text>
+      </g>
+      <g class="room-group" data-room="430" data-type="多媒体教学机房" data-occupant="陈梁 杨旻">
+        <polygon class="room-area" points="836.16 192.69 836.16 308.29 1212.39 308.48 1212.39 192.69 836.16 192.69" />
+        <text class="room-label"></text>
+      </g>党
+      <g class="room-group" data-room="432" data-type="党员之家" data-occupant="暂无">
+        <polygon class="room-area"
+          points="1308.27 192.69 1319.39 297.96 1384.87 297.96 1384.87 192.69 1308.27 192.69" />
+        <text class="room-label"></text>
+      </g>
+      <g class="room-group" data-room="434" data-type="多媒体教室" data-occupant="杨旻">
+        <polygon class="room-area"
+          points="1461.48 297.96 1469.73 192.69 1384.87 192.69 1384.87 297.96 1461.48 297.96" />
+        
+        <text class="room-label"></text>
+      </g>
+      <g class="room-group" data-room="428" data-type="服务器机房" data-occupant="杨旻">
+        <polygon class="room-area" points="770.58 283.5 778.83 140.85 665.3 140.85 665.3 283.5 770.58 283.5" />
+        <text class="room-label"></text>
+      </g>
+      <g class="room-group" data-room="417" data-type="会议室" data-occupant="暂无">
+        <polygon class="room-area" points="564.34 1291.09 564.34 989.81 770.58 989.38 770.58 1303.72 564.34 1291.09" />
+        <text class="room-label"></text>
+      </g>
+      <g class="room-group" data-room="426" data-type="多媒体教学机房" data-occupant="陈梁 杨旻">
+        <rect class="room-area" x="492.72" y="140.85" width="172.58" height="142.66" />
+        <text class="room-label"></text>
+      </g>
+    </svg>
+    <div id="info-box">
+      <div><strong>房间：</strong><span class="room"></span></div>
+      <div><strong>用途：</strong><span class="type"></span></div>
+      <div><strong>人员：</strong><span class="occupant"></span></div>
+    </div>
+  </div>
+
+    <script>
+      // —— 1. “进入”按钮：点击后隐藏启动屏 —— 
+      document.getElementById('enter-btn').addEventListener('click', () => {
+        document.getElementById('startup-screen').style.display = 'none';
+      }, 2000);
+      // 2. 搜索功能：回车或点击时触发对应房间点击
+    document.getElementById('search-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const keyword = document.getElementById('search-input').value.trim().toLowerCase();
+    const rooms = document.querySelectorAll('.room-group');
+
+    if (!keyword) return;
+
+    let found = false;
+
+    rooms.forEach(room => {
+      const roomNum = room.dataset.room?.toLowerCase() || '';
+      const type = room.dataset.type?.toLowerCase() || '';
+      const occupant = room.dataset.occupant?.toLowerCase() || '';
+
+      // 判断是否匹配关键词
+      if (roomNum.includes(keyword) || type.includes(keyword) || occupant.includes(keyword)) {
+        highlightRoom(room);
+        found = true;
+      } else {
+        resetRoom(room);
+      }
+    });
+
+    if (!found) {
+      alert('未找到匹配的房间。');
+    }
+  });
+  function highlightRoom(room) {
+    const area = room.querySelector('.room-area');
+    if (area) {
+      area.style.fill = 'rgba(43, 229, 114, 0.5)';
+    }
+  }
+  function resetRoom(room) {
+    const area = room.querySelector('.room-area');
+    if (area) {
+      area.style.fill = 'transparent';
+    }
+  }
+
+    // 3. 现有的房间标签定位 + 点击弹窗逻辑
+    var data = {
+      '407': { room: '407', type: '研究生工作室', occupant: '陈梁 严海洲 叶珂男' },
+      '408': { room: '408', type: '无标签办公室', occupant: '暂无' },
+      '409': { room: '409', type: '教育部工程研究中心实验室', occupant: '陈梁 朱亚萍 代玉琢 杜庆峰 韩永琦' },
+      '410': { room: '410', type: '研究生工作室', occupant: '陈梁 尹长青 陈韩悦' },
+      '412': { room: '412', type: '教研室', occupant: '刘岩 张惠娟 孙萍 罗怡桂' },
+      '413': { room: '413', type: '弱电间', occupant: '暂无' },
+      '414': { room: '414', type: '硬件实验室', occupant: '暂无' },
+      '415': { room: '415', type: '强电间', occupant: '暂无' },
+      '416': { room: '416', type: '多媒体教学机房', occupant: '陈梁 杨旻' },
+      '417': { room: '417', type: '会议室', occupant: '暂无' },
+      '418L': { room: '418', type: '教授办公室', occupant: '张林 江建慧 刘琴' },
+      '418R': { room: '418', type: '研究生工作室', occupant: '袁时金' },
+      '419': { room: '419', type: '教学实验室', occupant: '陈梁 张晶' },
+      '426': { room: '426', type: '多媒体教学机房', occupant: '陈梁 杨旻' },
+      '428': { room: '428', type: '服务器机房', occupant: '杨旻' },
+      '430': { room: '430', type: '多媒体教学机房', occupant: '陈梁 杨旻' },
+      '432': { room: '432', type: '党员之家', occupant: '暂无' },
+      '434': { room: '434', type: '多媒体教室', occupant: '杨旻' },
+      '441': { room: '441', type: '会议室', occupant: '暂无' },
+      '442L': { room: '442', type: '教务办公室', occupant: '刘梦露 李慧敏 王彩霞 杨丹 姚仕仪' },
+      '442R': { room: '442', type: '学院办公室', occupant: '闫鹏 张晶 林伊凡 张晓雅 钱银飞 王昊榕 俞晓静' },
+      '443': { room: '443', type: '实验中心', occupant: '陈梁 杨旻 严海洲' },
+      '444': { room: '444', type: '档案室', occupant: '暂无' },
+      '446': { room: '446', type: '学生工作办公室', occupant: '张砚秋 丁瑞庭 葛蕾 焦嘉欣 钟梦莹 陈璞皎' },
+      '448': { room: '448', type: '副书记办公室 院务助理办公室', occupant: '陈荣 吴晓培 宋井宽' },
+      '450': { room: '450', type: '（左）党委书记办公室 （右）院长办公室', occupant: '（左）熊岚 （右）申恒涛' },
+      '451': { room: '451', type: '副院长办公室', occupant: '王成 何良华 张林' },
+      '455': { room: '455', type: '会议室', occupant: '暂无' },
+      '456': { room: '456', type: '党委办公室', occupant: '周微微 陆凤兰 赵清理' }
+    };
+    const svg = document.getElementById('mapSvg');
+    const infoBox = document.getElementById('info-box');
+    const container = document.getElementById('container');
+    // 4. 自动给每个房号标签算中心并定位
+    svg.querySelectorAll('.room-group').forEach(group => {
+      const shape = group.querySelector('.room-area');
+      const bbox = shape.getBBox();
+      const cx = bbox.x + bbox.width / 2;
+      const cy = bbox.y + bbox.height / 2;
+      const label = group.querySelector('.room-label');
+      label.setAttribute('x', cx);
+      label.setAttribute('y', cy);
+    });
+    // 5. 绑定点击事件，弹出信息框
+    svg.querySelectorAll('.room-group').forEach(group => {
+      group.addEventListener('click', e => {
+        const r = group.dataset.room;
+        infoBox.querySelector('.room').textContent = data[r].room;
+        infoBox.querySelector('.type').textContent = data[r].type;
+        infoBox.querySelector('.occupant').textContent = data[r].occupant;
+        const shape = group.querySelector('.room-area');
+        const bbox = shape.getBBox();
+        const pt = svg.createSVGPoint();
+        pt.x = bbox.x + bbox.width / 2;
+        pt.y = bbox.y + bbox.height / 2;
+        const loc = pt.matrixTransform(shape.getScreenCTM());
+        infoBox.style.left = loc.x + 'px';
+        infoBox.style.top = loc.y + 'px';
+        infoBox.style.display = 'block';
+        e.stopPropagation();
+      });
+    });
+    // 6. 点击空白隐藏
+    container.addEventListener('click', () => {
+      infoBox.style.display = 'none';
+    });
+  </script>
+</body>
+
+</html>
